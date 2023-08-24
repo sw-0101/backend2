@@ -27,7 +27,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Autowired
     private SocketConnector connector;
 
-
     //연결된 후 메시지 전송
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -55,7 +54,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
             String link = object.get("link").getAsString();
             ResultData resultData = new ResultData(title, link);
             dataList.add(resultData);
-            System.out.println(title+" "+link);
 
         }
         resultDataList=dataList;

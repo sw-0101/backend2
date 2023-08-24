@@ -5,6 +5,15 @@ public class SearchData {
     private String year;
     private String keyword;
 
+    @Override
+    public String toString() {
+        return "SearchData{" +
+                "conference='" + conference + '\'' +
+                ", year='" + year + '\'' +
+                ", keyword='" + keyword + '\'' +
+                '}';
+    }
+
     public String getConference() {
         return conference;
     }

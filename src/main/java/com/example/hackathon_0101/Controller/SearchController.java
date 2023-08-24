@@ -3,13 +3,11 @@ package com.example.hackathon_0101.Controller;
 
 import com.example.hackathon_0101.Dto.ResultData;
 import com.example.hackathon_0101.Dto.SearchData;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,19 +24,16 @@ public class SearchController{
 
     @ResponseBody
     @GetMapping("/search") //frontend에서 검색 데이터 받아옴
-    public SearchData Search(@RequestBody SearchData searchData) { //@RequestParam String conference, String year,String keyword
-        System.out.println(searchData.getConference());
-        System.out.println(searchData.getKeyword());
-        System.out.println(searchData.getYear());
-        search = searchData;
-        webSocketHandler.sendDataViaWebSocket(searchData.toString());
-        return searchData;
-    }
-
-    @ResponseBody
-    @GetMapping("/search2")
-    public SearchData Search() {
-        return search;
+    public String Search(@RequestParam String conference, String year, String keyword) { //@RequestParam String conference, String year,String keyword
+        String s = "";
+        s+=conference+" ";
+        s+=year+" ";
+        s+=keyword;
+        //System.out.println(searchData.getConference());
+        //System.out.println(searchData.getKeyword());
+        //System.out.println(searchData.getYear());
+        webSocketHandler.sendDataViaWebSocket(s);
+        return s;
     }
 
     @ResponseBody

@@ -13,41 +13,39 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
-    private final SearchController searchController;
-
+    private WebSocketSession socketSession;
+    private List<ResultData> resultDataList;
     protected Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
     @Lazy
     @Autowired
     private SocketConnector connector;
 
-    public WebSocketHandler(SearchController searchController) {
-        this.searchController = searchController;
-    }
 
     //연결된 후 메시지 전송
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        TimeUnit.SECONDS.sleep(1);
-        logger.info("Connection has been established with websocket server. {}", session);
-        session.sendMessage(new TextMessage("connect"));
+        socketSession= session;
     }
-
-
+    public void sendDataViaWebSocket(String data) {
+        try {
+            socketSession.sendMessage(new TextMessage(data));
+        } catch (IOException e) {
+            // Handle exception
+        }
+    }
     //서버로부터 받은 메시지 처리
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         Gson gson = new Gson();
         ArrayList list = gson.fromJson(message.getPayload(), ArrayList.class);
         String str = list.get(0).toString();
-        StringBuilder sb = new StringBuilder();
-        System.out.println(str);
         JsonParser jsonParser = new JsonParser();
         JsonArray jsonArray = (JsonArray) jsonParser.parse(str);
         List<ResultData> dataList = new ArrayList<>();
@@ -57,24 +55,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
             String link = object.get("link").getAsString();
             ResultData resultData = new ResultData(title, link);
             dataList.add(resultData);
+            System.out.println(title+" "+link);
+
         }
-        searchController.setDataList(dataList);
+        resultDataList=dataList;
     }
-
-
-        /*for (Object o : list) {
-
-        }*/
-
-//        ResultData[] data = gson.fromJson(message.getPayload(),ResultData[].class);
-//        System.out.println(data);
-        //ResultData resultData = gson.fromJson(message.getPayload(), ResultData.class);
-        //logger.info("Message received : {} ", message.getPayload());
-//        if (counter < 2) {
-//            session.sendMessage(new TextMessage("Message number " + counter));
-//            counter++;
-//        }
-
+    public List<ResultData> getResult(){
+        return resultDataList;
+    }
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);

@@ -3,18 +3,16 @@ package com.example.hackathon_0101.Controller;
 import com.example.hackathon_0101.Dto.EditDto;
 import com.example.hackathon_0101.Dto.UserDto;
 import com.example.hackathon_0101.Service.UserService;
-import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class SignUpController {
+public class UserController {
     private final UserService userService;
 
-    public SignUpController(UserService userService){
+    public UserController(UserService userService){
         this.userService = userService;
     }
 

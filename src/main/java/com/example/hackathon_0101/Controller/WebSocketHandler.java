@@ -30,15 +30,18 @@ public class WebSocketHandler extends TextWebSocketHandler {
     //연결된 후 메시지 전송
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        socketSession= session;
+        socketSession = session;
     }
+
     public void sendDataViaWebSocket(String data) {
         try {
             socketSession.sendMessage(new TextMessage(data));
         } catch (IOException e) {
+            e.printStackTrace();
             // Handle exception
         }
     }
+
     //서버로부터 받은 메시지 처리
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -56,11 +59,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
             dataList.add(resultData);
 
         }
-        resultDataList=dataList;
+        resultDataList = dataList;
     }
-    public List<ResultData> getResult(){
+
+    public List<ResultData> getResult() {
         return resultDataList;
     }
+
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);

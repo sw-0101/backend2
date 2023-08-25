@@ -33,7 +33,7 @@ public class PaperEntity {
     private Date date;
 
     @Column
-    private String State;
+    private State State;
 
     public static PaperEntity toPaperEntity(PaperDto paperDto){
         PaperEntity paperEntity = new PaperEntity();

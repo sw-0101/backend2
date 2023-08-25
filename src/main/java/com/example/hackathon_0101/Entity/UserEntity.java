@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -26,6 +28,14 @@ public class UserEntity {
 
     @Column
     private String phoneNum;
+    private String Major;
+    private String Minor;
+    private String College;
+    private LocalDate Birth;
+    private String degree;
+    private String field;//주 분야
+    private long own_paper;
+    private long favor_depth;
 
     public static UserEntity toUserEntity(UserDto userDto){
         UserEntity userEntity = new UserEntity();

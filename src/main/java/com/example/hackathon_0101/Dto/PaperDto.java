@@ -1,5 +1,6 @@
 package com.example.hackathon_0101.Dto;
 
+import com.example.hackathon_0101.Entity.State;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,5 +25,5 @@ public class PaperDto {
 
     private Date date;
 
-    private String state;
+    private State state;
 }

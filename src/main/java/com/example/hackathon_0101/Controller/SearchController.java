@@ -29,6 +29,7 @@ public class SearchController{
         s+=conference+" ";
         s+=year+" ";
         s+=keyword;
+        System.out.println(s);
         //System.out.println(searchData.getConference());
         //System.out.println(searchData.getKeyword());
         //System.out.println(searchData.getYear());

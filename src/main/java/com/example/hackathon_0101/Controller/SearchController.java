@@ -1,9 +1,9 @@
 package com.example.hackathon_0101.Controller;
 
 
-import com.example.hackathon_0101.Dto.ResultData;
-import com.example.hackathon_0101.Dto.SearchData;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.hackathon_0101.Dto.ResultDto;
+import com.example.hackathon_0101.Dto.SearchDto;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 public class SearchController{
-    private static SearchData search;
+    private static SearchDto search;
     private final WebSocketHandler webSocketHandler;
     @Autowired
     public SearchController(WebSocketHandler webSocketHandler) {
@@ -24,7 +24,8 @@ public class SearchController{
 
     @ResponseBody
     @GetMapping("/search") //frontend에서 검색 데이터 받아옴
-    public String Search(@RequestParam String conference, String year, String keyword) { //@RequestParam String conference, String year,String keyword
+    public ResponseEntity<List<ResultDto>> Search(@RequestParam String conference, String year, String keyword) throws InterruptedException { //@RequestParam String conference, String year,String keyword
+        //ResponseEntity<List<ResultDto>>
         String s = "";
         s+=conference+" ";
         s+=year+" ";
@@ -34,23 +35,33 @@ public class SearchController{
         //System.out.println(searchData.getKeyword());
         //System.out.println(searchData.getYear());
         webSocketHandler.sendDataViaWebSocket(s);
-        return s;
-    }
-
-    @ResponseBody
-    @PostMapping("/search2")
-    public void SearchResult(@RequestBody HashMap<String, Object> map) { //Map<String, Object>
-        System.out.println(map);
+        Thread.sleep(1000);
+        List<ResultDto> result = webSocketHandler.getResult();
+        System.out.println(result.size());
+        if (result.size() == 5) {
+            System.out.println("OK");
+            return ResponseEntity.ok(result);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/result")
-    public ResponseEntity<List<ResultData>> getResult() {
-        List<ResultData> dataList = webSocketHandler.getResult();
-        if (dataList != null) return ResponseEntity.ok(dataList);
-        else return ResponseEntity.notFound().build();
+    public ResponseEntity<List<ResultDto>> getResult() {
+        List<ResultDto> result = webSocketHandler.getResult();
+        System.out.println(result);
+        if (result != null) {
+            System.out.println("OK");
+            return ResponseEntity.ok(result);
+        }
+        else {
+            System.out.println("Error");
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    public SearchData getSearch(){
+    public SearchDto getSearch(){
         return search;
     }
 

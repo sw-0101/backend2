@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name="paper_info")
+@Table(name="paper")
 public class PaperEntity {
     @Id
     @GeneratedValue

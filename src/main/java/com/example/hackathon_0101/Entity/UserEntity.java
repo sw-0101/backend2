@@ -27,7 +27,7 @@ public class UserEntity {
     private String email;
 
     @Column
-    private String phoneNum;
+    private String phonenum;
     private String Major;
     private String Minor;
     private String College;
@@ -43,7 +43,7 @@ public class UserEntity {
         userEntity.setNumber(userEntity.getNumber());
         userEntity.setName(userDto.getName());
         userEntity.setEmail(userDto.getEmail());
-        userEntity.setPhoneNum(userDto.getPhonenum());
+        userEntity.setPhonenum(userDto.getPhonenum());
 
         return userEntity;
     }

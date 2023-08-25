@@ -33,6 +33,7 @@ public class UserService {
     }
     public EditDto getEditDTO(String id){
         UserEntity findUser = findUserById(id);
+        System.out.println(findUser);
         return EditDto.toEditDTO(findUser);
     }
 

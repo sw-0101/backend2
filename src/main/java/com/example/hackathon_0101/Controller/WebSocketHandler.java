@@ -47,10 +47,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String msg = message.getPayload();
-        System.out.println(msg);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(msg);
-        //System.out.println(jsonNode);
         JsonNode titleNode = jsonNode.get("Title");
         JsonNode linkNode = jsonNode.get("Link");
         String[] titles = objectMapper.convertValue(titleNode, String[].class);
@@ -59,11 +57,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
         for(int i=0;i<5;i++){
             resultDataList.add(new ResultDto(titles[i],links[i] ));
         }
-        System.out.println("result" + resultDataList.size());
     }
     public List<ResultDto> getResult(){
         return resultDataList;
     }
+
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);

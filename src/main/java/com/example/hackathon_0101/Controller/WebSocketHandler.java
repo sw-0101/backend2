@@ -51,6 +51,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         JsonNode jsonNode = objectMapper.readTree(msg);
         JsonNode titleNode = jsonNode.get("Title");
         JsonNode linkNode = jsonNode.get("Link");
+        JsonNode typeNode = jsonNode.get("Type");
         String[] titles = objectMapper.convertValue(titleNode, String[].class);
         String[] links = objectMapper.convertValue(linkNode, String[].class);
         resultDataList=new ArrayList<>();

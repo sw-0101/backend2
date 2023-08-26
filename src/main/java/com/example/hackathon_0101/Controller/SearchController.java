@@ -27,7 +27,7 @@ public class SearchController {
     @ResponseBody
     @GetMapping("/search") //frontend에서 검색 데이터 받아옴
     public ResponseEntity<List<ResultDto>> Search(@RequestParam String conference, String year, String keyword) throws InterruptedException { //@RequestParam String conference, String year,String keyword
-        String s = conference + " " + year + " " + keyword;
+        String s = "s" +conference + " " + year + " " + keyword;
         webSocketHandler.sendDataViaWebSocket(s);
         Thread.sleep(1000);
         List<ResultDto> result = webSocketHandler.getResult();
